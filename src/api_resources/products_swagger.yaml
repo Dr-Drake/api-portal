@@ -1,0 +1,506 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Products Service
+# during dev, should point to your local machine
+host: 12.96.91.34.bc.googleusercontent.com
+# basePath prefixes all resource paths 
+basePath: /api
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Should be formatted this way - "Bearer <access_token>"
+  cookieAuth:
+    type: apiKey
+    in: header
+    name: Cookie
+    description: This is for refreshing the access token. Note that swagger does not support this function.
+    
+    
+  
+  
+paths:
+  /products:
+    post:
+      security:
+        - bearerAuth: []
+      description: Add a list of products to an inventory.
+      summary: Creates products.
+      operationId: productPost
+      parameters:
+        - name: ProductPostRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the product is added to.
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    category:
+                      type: string
+                    branch:
+                      type: string
+                      description: The branch ID.
+                    price:
+                      type: number
+                    image:
+                      type: string
+                      description: The image url.
+                    
+                description: An array of product objects.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string 
+                
+    
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches products from the inventory.
+      summary: Fetch product(s).
+      operationId: productFetch
+      
+      parameters:
+        - in: query
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory.
+        
+        - in: query
+          name: id
+          required: false
+          type: string
+          description: The product ID.
+          
+        - in: query
+          name: name
+          required: false
+          type: string
+          description: The product name.
+          
+        - in: query
+          name: category
+          required: false
+          type: string
+          description: The product category.
+          
+        - in: query
+          name: branch
+          required: false
+          type: string
+          description: The branch ID.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                category:
+                  type: string
+                branch:
+                  type: string
+                  description: The branch ID.
+                price:
+                  type: number
+                image:
+                  type: string
+                  description: The image url.
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+    put:
+      security:
+        - bearerAuth: []
+      description: Updates a product in an inventory.
+      summary: Update product.
+      operationId: productUpdate
+      
+      parameters:
+        - in: body
+          name: ProductUpdateRequest
+          required: true
+          description: The product update request parameters.
+          schema:
+            properties:
+              id:
+                type: string
+                description: The product ID.
+              inventory:
+                type: string
+                description: The inventory that the product is in.
+              name:
+                type: string
+                description: The name of the product.
+              category:
+                type: string
+                description: The category of the product.
+              branch:
+                type: string
+                description: The branch that the product is in.
+              price:
+                type: number
+                description: The price of the product.
+              image:
+                type: string
+                description: The image url.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+            
+        
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+            
+              
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+  
+  /products/delete:
+    post:
+      security:
+        - bearerAuth: []
+      description: Deletes product(s) from an inventory.
+      summary: Delete products.
+      operationId: productDelete
+      parameters:
+        - name: ProductDeleteRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the product is deleted from.
+              items:
+                type: array
+                items:
+                  type: string
+                description: An array of product IDs.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+  /products/{inventory}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches all products in an inventory.
+      summary: Fetch all products.
+      operationId: productFetchALl
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the product is in.
+  
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                category:
+                  type: string
+                branch:
+                  type: string
+                  description: The branch ID.
+                price:
+                  type: number
+                image:
+                  type: string
+                  description: The image url.
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+  
+  /products/{inventory}/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches products by their ID.
+      summary: Fetch product by ID.
+      operationId: productFetchID
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the product is in.
+          
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: The product ID.
+    
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                category:
+                  type: string
+                branch:
+                  type: string
+                  description: The branch ID.
+                price:
+                  type: number
+                image:
+                  type: string
+                  description: The image url.
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+    
+  

@@ -1,0 +1,107 @@
+.main{
+    display: block;
+    position: fixed;
+    width: 100%;
+}
+
+nav {
+    display: none;
+    background-color: #257179;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.burger{
+    cursor: pointer;
+}
+
+.burger div{
+    width: 1.5625rem;
+    height: 0.1875rem;
+    margin: 0.3125rem;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.toggle .line1{
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.toggle .line2{
+    opacity: 0;
+}
+
+.toggle .line3{
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.logo{
+    width: auto;
+}
+
+.logo a{
+    text-decoration: none;
+    font-family: "Chela One", serif;
+    color: #fafafa;
+    font-size: 100%;
+    letter-spacing: 3px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.logo span{
+    font-family: 'Lateef', cursive;
+    white-space: nowrap;
+}
+
+/* The responsive nav styles*/
+.subnav ul{
+    z-index: 1000;
+    display: none;
+    background-color: #257179;
+    width: 45%;
+    margin-left: 55%;
+    transition: all 0.3s ease;
+}
+
+.subnav li{
+    list-style: none;
+}
+
+.subnav a{
+    display: block;
+    font-family: "Lato", serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-style: normal;
+    color: #fafafa;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 3%;
+    text-align: center;
+}
+
+.subnav a:hover{
+    color: #257179;
+    background-color: #fafafa;
+}
+
+.subnav a:active{
+    color: black;
+    background-color: blue;
+}
+
+@media screen and (max-width: 1024px){
+    nav {
+        display: flex;
+    }
+
+    .subnav ul{
+        display: block;
+    }
+}

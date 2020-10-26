@@ -1,0 +1,10 @@
+.App {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+#api-data {
+    flex: 85%;
+    overflow-y: scroll;
+}

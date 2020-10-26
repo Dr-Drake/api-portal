@@ -1,0 +1,28 @@
+{
+    "list": [
+        {
+            "id": 1,
+            "name": "Accounts service"
+        },
+
+        {
+            "id":2,
+            "name": "Products service"
+        },
+
+        {
+            "id":3,
+            "name": "Images service"
+        },
+
+        {
+            "id":4,
+            "name": "Categories service"
+        },
+
+        {
+            "id":4,
+            "name": "Branches service"
+        }
+    ]
+}

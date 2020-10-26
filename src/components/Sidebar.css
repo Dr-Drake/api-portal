@@ -1,0 +1,118 @@
+.frame {
+    height: 100vh;
+    overflow: visible;
+    background-color: #257179;
+    flex: 18%;
+}
+
+.top-frame {
+    box-sizing: border-box;
+    width: auto;
+    height: 146px;
+    overflow: hidden;
+    background-color: #257179;
+    border-style: double;
+    border-color: #CB551A;
+    border-top-width: 0px;
+    border-bottom-width: 9px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+
+.logo{
+    width: auto;
+    height: 94px;
+    overflow: visible;
+    line-height: 1.2;
+    text-align: center;
+    padding-top: 27px;
+    padding-right: 24px;
+    padding-bottom: 26px;
+    padding-left: 25px;
+}
+
+.logo a{
+    text-decoration: none;
+    font-family: "Chela One", serif;
+    color: #fafafa;
+    font-size: 32px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.logo span{
+    font-family: 'Lateef', cursive;
+    white-space: nowrap;
+}
+
+.stack {
+    width: auto;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #E78383;
+}
+
+.stack p {
+    width: auto;
+    height: 28px;
+    overflow: visible;
+    font-family: "Lemonada", serif;
+    color: #ffffff;
+    font-size: 24px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+}
+
+.nav{
+    margin-top: 5px;
+    box-sizing: border-box;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+.nav a{
+    display: block;
+    font-family: "Lato", serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    font-weight: 700;
+    font-style: normal;
+    border-radius: 7px;
+    color: #fafafa;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    white-space: nowrap;
+}
+
+.nav a:hover{
+    color: #257179;
+    background-color: #fafafa;
+}
+
+.nav a:active{
+    color: black;
+    background-color: blue;
+}
+
+@media screen and (max-width: 1024px){
+    .frame{
+        display: none;
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "accounts service": "/accounts_swagger.yaml",
+    "products service": "/products_swagger.yaml",
+    "images service": "/images_swagger.yaml",
+    "categories service": "/categories_swagger.yaml",
+    "branches service": "/branches_swagger.yaml"
+}

@@ -1,0 +1,73 @@
+.page{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.main-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 85%;
+    width: auto;
+    height: 100vh;
+    background-color:  rgba(255, 255, 255, 0.5);;
+}
+
+.header {
+    display: flex;
+    width:auto;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: visible;
+    margin-top: 9%;
+    align-items: center;
+    justify-content: center;
+}
+
+.header p {
+    font-family: "Indie Flower", serif;
+    color: #000000;
+    font-size: 4vw;
+    letter-spacing: 0px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    width: 63%;
+    height: 18%;
+    overflow: visible;
+    background-color: rgba(0, 153, 255, 0.5);
+}
+
+.content p {
+    font-family: "Indie Flower", serif;
+    color: #000000;
+    font-size: 2vw;
+    letter-spacing: 0px;
+    line-height: 1.2;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+}
+
+.content img{
+    margin-left: 2%;
+    width: 5%;
+    height: 5%px;
+}
+
+@media screen and (max-width: 1024px){
+    .header p{
+        font-size: 6vw;
+    }
+
+    .content p{
+        font-size: 4vw;
+    }
+}

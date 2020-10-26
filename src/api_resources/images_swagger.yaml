@@ -1,0 +1,457 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Images Service
+# during dev, should point to your local machine
+host: ec2-18-134-95-207.eu-west-2.compute.amazonaws.com:8080
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  - multipart/form-data
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Should be formatted this way - "Bearer <access_token>"
+  cookieAuth:
+    type: apiKey
+    in: header
+    name: Cookie
+    description: This is for refreshing the access token. Note that swagger does not support this function.
+    
+    
+  
+  
+paths:
+  /images:
+    post:
+      security:
+        - bearerAuth: []
+      description: Upload images for an inventory.
+      summary: Upload images.
+      operationId: imageUpload
+      parameters:
+        - name: x-inventory
+          in: header
+          schema:
+            type: string
+            description: The name of the inventory that the image belongs to.
+          required: true
+          
+        - name: file
+          in: formData
+          type: file
+          description: The request parameters.
+          required: true
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string 
+                
+    
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches images for specified inventory.
+      summary: Fetch image(s).
+      operationId: fetchImage
+      
+      parameters:
+        - in: query
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory.
+        
+        - in: query
+          name: name
+          required: false
+          type: string
+          description: The name of the image.
+          
+        - in: query
+          name: url
+          required: false
+          type: string
+          description: The image url.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+    put:
+      security:
+        - bearerAuth: []
+      description: Updates an image in an inventory.
+      summary: Update image.
+      operationId: imagetUpdate
+      
+      parameters:
+        - in: body
+          name: ImageUpdateRequest
+          required: true
+          description: The product update request parameters.
+          schema:
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory.
+              name:
+                type: string
+                description: The name of the image to update.
+              update:
+                type: string
+                description: The new name of the image.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+            
+        
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+            
+              
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+  
+  /images/delete:
+    post:
+      security:
+        - bearerAuth: []
+      description: Deletes image(s) from an inventory.
+      summary: Delete image(s).
+      operationId: imageDelete
+      parameters:
+        - name: ImageDeleteRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the image is deleted from.
+              items:
+                type: array
+                items:
+                  type: string
+                description: An array of image names.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+  /images/{inventory}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches images products in an inventory.
+      summary: Fetch all images.
+      operationId: imageFetchALl
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the image is in.
+  
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+              
+              
+              
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+  
+  /images/{inventory}/{name}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches images by their name.
+      summary: Fetch image by name.
+      operationId: imageFetchName
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the product is in.
+          
+        - in: path
+          name: name
+          required: true
+          type: string
+          description: The name of the image.
+    
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the product.
+            description: An arry of products.
+            
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+    
+  

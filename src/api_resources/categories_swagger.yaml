@@ -1,0 +1,449 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Categories Service
+# during dev, should point to your local machine
+host: 12.96.91.34.bc.googleusercontent.com
+# basePath prefixes all resource paths 
+basePath: /api
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Should be formatted this way - "Bearer <access_token>"
+  cookieAuth:
+    type: apiKey
+    in: header
+    name: Cookie
+    description: This is for refreshing the access token. Note that swagger does not support this function.
+    
+    
+  
+  
+paths:
+  /categories:
+    post:
+      security:
+        - bearerAuth: []
+      description: Add a category to an inventory.
+      summary: Creates category.
+      operationId: categoryPost
+      parameters:
+        - name: categoryPostRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the category is created for.
+              name:
+                type: string
+                description: The name of the category.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string 
+                
+    
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches categories for the inventory.
+      summary: Fetch categories.
+      operationId: categoryFetch
+      
+      parameters:
+        - in: query
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory.
+        
+        - in: query
+          name: name
+          required: false
+          type: string
+          description: The name of the category.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of categories.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+    put:
+      security:
+        - bearerAuth: []
+      description: Updates a category in an inventory.
+      summary: Update category.
+      operationId: categoryUpdate
+      
+      parameters:
+        - in: body
+          name: CategoryUpdateRequest
+          required: true
+          description: The category update request parameters.
+          schema:
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory.
+              name:
+                type: string
+                description: The name of the category to update.
+              update:
+                type: string
+                description: The new name for the category
+              
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+            
+        
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+            
+              
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+  
+  /categories/delete:
+    post:
+      security:
+        - bearerAuth: []
+      description: Deletes categories from an inventory.
+      summary: Delete categories.
+      operationId: categoryDelete
+      parameters:
+        - name: CategoryDeleteRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the category is deleted from.
+              categories:
+                type: array
+                items:
+                  type: string
+                description: An array of category names.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+  /categories/{inventory}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches all categories in an inventory.
+      summary: Fetch all categories.
+      operationId: categoryFetchAll
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the category is in.
+  
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of categories.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+  
+  /categories/{inventory}/{name}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches category by name.
+      summary: Fetch category by name.
+      operationId: categoryFetchName
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the category is in.
+          
+        - in: path
+          name: name
+          required: true
+          type: string
+          description: The category.
+    
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of categories.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+    
+  
