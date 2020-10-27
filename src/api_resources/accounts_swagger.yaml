@@ -49,12 +49,12 @@ paths:
             properties:
               username:
                 type: string
+                enum: [IntroTech, Hubmart, Techmart]
+                example: IntroTech
               password:
                 type: string
                 format: password
-            example:
-              username: IntroTech
-              password: 123456
+                example: "123456"
       responses:
         "200":
           description: Success
