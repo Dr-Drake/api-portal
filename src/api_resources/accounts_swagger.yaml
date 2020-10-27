@@ -52,6 +52,9 @@ paths:
               password:
                 type: string
                 format: password
+            example:
+              username: IntroTech
+              password: 123456
       responses:
         "200":
           description: Success
