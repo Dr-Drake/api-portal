@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "/src/api_resources")));
 
 
 // Serve React App
-app.get("*", (req, res)=>{
+app.use("*", (req, res)=>{
     res.sendFile(path.join(__dirname, "build", "index.html"));
 })
 
