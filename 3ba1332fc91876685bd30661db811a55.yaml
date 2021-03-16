@@ -1,0 +1,549 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Branches Service
+# during dev, should point to your local machine
+host: https://ingress-srv-dr-drake.cloud.okteto.net
+# basePath prefixes all resource paths 
+basePath: /api
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Should be formatted this way - "Bearer <access_token>"
+  cookieAuth:
+    type: apiKey
+    in: header
+    name: Cookie
+    description: This is for refreshing the access token. Note that swagger does not support this function.
+    
+    
+  
+  
+paths:
+  /branches:
+    post:
+      security:
+        - bearerAuth: []
+      description: Add a branch to an inventory.
+      summary: Creates branch.
+      operationId: branchPost
+      parameters:
+        - name: branchPostRequest
+          in: body
+          description: The request parameters.
+          required: true
+          schema:
+            type: object
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory the category is created for.
+              id:
+                type: string
+                description: The branch ID.
+              name:
+                type: string
+                description: The name of the branch.
+              address:
+                type: string
+                description: The address.
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string 
+                
+    
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches branches for the inventory.
+      summary: Fetch branches.
+      operationId: branchFetch
+      
+      parameters:
+        - in: query
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory.
+        
+        - in: query
+          name: id
+          required: false
+          type: string
+          description: The branch ID.
+          
+        - in: query
+          name: name
+          required: false
+          type: string
+          description: The name of the category.
+          
+        - in: query
+          name: address
+          required: false
+          type: string
+          description: The address of the branch.
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                address:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of branches.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+    put:
+      security:
+        - bearerAuth: []
+      description: Updates a branch in an inventory.
+      summary: Update branch.
+      operationId: branchUpdate
+      
+      parameters:
+        - in: body
+          name: BranchUpdateRequest
+          required: true
+          description: The branch update request parameters.
+          schema:
+            properties:
+              inventory:
+                type: string
+                description: The name of the inventory.
+              id:
+                type: string
+                description: The ID of the branch to update.
+              name:
+                type: string
+                description: The name of the branch.
+              address:
+                type: string
+                description: The address of the branch.
+              
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+            
+        
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+            
+              
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+                
+    delete:
+      security:
+        - bearerAuth: []
+      description: Deletes a branch in an inventory.
+      summary: Delete branch.
+      operationId: branchDelete
+      
+      parameters:
+        - in: query
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory.
+        
+        - in: query
+          name: id
+          required: true
+          type: string
+          description: The branch ID.
+          
+              
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+            
+        
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+            
+              
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+  
+  
+                
+                
+  /branches/{inventory}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches all branches in an inventory.
+      summary: Fetch all bramches.
+      operationId: branchFetchAll
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the branch is in.
+  
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                address:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of branches.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+  
+  /branches/{inventory}/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      description: Fetches branch by ID.
+      summary: Fetch branch by ID.
+      operationId: FetchBranchById
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the branch is in.
+          
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: The branch ID.
+    
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+                address:
+                  type: string
+                createdAt:
+                  type: object
+                  description: Date object of the category.
+            description: An array of branches.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+    
+    delete:
+      security:
+        - bearerAuth: []
+      description: Deletes branch by ID.
+      summary: Delete branch by ID.
+      operationId: DeleteBranchById
+      
+      parameters:
+        - in: path
+          name: inventory
+          required: true
+          type: string
+          description: The name of the inventory that the branch is in.
+          
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: The branch ID.
+    
+    
+      
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The success message.
+              result:
+                type: object
+                description: The result of the insert.
+            
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+              
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+                
+      
+        "403":
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: number
+              message:
+                type: string
+  
