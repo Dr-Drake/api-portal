@@ -26,7 +26,7 @@ app.use("*", (req, res)=>{
 
 // Create http server
 var server = http.createServer(app);
-var PORT = process.env.PORT || 3030;
+var PORT = process.env.PORT || 1337;
 
 // Listen for connections
 server.listen(PORT,

@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Categories Service
 # during dev, should point to your local machine
-host: 12.96.91.34.bc.googleusercontent.com
+host: https://ingress-srv-dr-drake.cloud.okteto.net
 # basePath prefixes all resource paths 
 basePath: /api
 # 
